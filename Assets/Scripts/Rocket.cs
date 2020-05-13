@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
+    private Rigidbody _rigidbody;
 
     /// Start is called before the first frame update
     void Start()
     {
-        
+        if (_rigidbody == null)
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
     }
 
 
@@ -28,7 +32,7 @@ public class Rocket : MonoBehaviour
         // Thrust
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Thrust");
+            _rigidbody.AddRelativeForce(Vector3.up);
         }
 
         // Rotation
