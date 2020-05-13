@@ -38,11 +38,13 @@ public class Rocket : MonoBehaviour
         // Rotation
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("Rotating Left");
+            // anti clockwise
+            transform.Rotate(Vector3.forward);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("Rotating Right");
+            // clockwise - recall thumb is pointing at you
+            transform.Rotate(-Vector3.forward);
         }
     }
 }
