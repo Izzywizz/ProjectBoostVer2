@@ -6,6 +6,7 @@ using UnityEngine;
 public class Rocket : MonoBehaviour
 {
     private Rigidbody _rigidbody;
+    private AudioSource _audioSource;
 
     /// Start is called before the first frame update
     void Start()
@@ -13,6 +14,11 @@ public class Rocket : MonoBehaviour
         if (_rigidbody == null)
         {
             _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        if (_audioSource == null)
+        {
+            _audioSource = GetComponent<AudioSource>();
         }
     }
 
@@ -33,7 +39,17 @@ public class Rocket : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             _rigidbody.AddRelativeForce(Vector3.up);
+
+            if (!_audioSource.isPlaying) // So it doesnt layer the sound on top of eachotherS
+            {
+                _audioSource.Play();
+            }
         }
+        else
+        {
+            _audioSource.Stop();
+        }
+
 
         // Rotation
         if (Input.GetKey(KeyCode.A))
