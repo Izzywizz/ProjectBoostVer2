@@ -5,8 +5,15 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
+    [SerializeField]
+    private float rcsThrust = 100.0f;
+
+    [SerializeField]
+    private float mainThrust = 10.0f;
+
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
+
 
     /// Start is called before the first frame update
     void Start()
@@ -38,7 +45,7 @@ public class Rocket : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            _rigidbody.AddRelativeForce(Vector3.up);
+            _rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
 
             if (!_audioSource.isPlaying) // So it doesnt layer the sound on top of eachotherS
             {
@@ -59,16 +66,18 @@ public class Rocket : MonoBehaviour
     {
         // take manual control of rotation
         _rigidbody.freezeRotation = true;
+        // modify rotation speed
+        float rotationThisFrame = rcsThrust * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
         {
             // anti clockwise
-            transform.Rotate(Vector3.forward);
+            transform.Rotate(Vector3.forward * rotationThisFrame);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             // clockwise - recall thumb is pointing at you
-            transform.Rotate(-Vector3.forward);
+            transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
 
         // resume phsuics control of rotation
