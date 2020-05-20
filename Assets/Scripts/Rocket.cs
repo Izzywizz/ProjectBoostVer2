@@ -85,4 +85,22 @@ public class Rocket : MonoBehaviour
     }
 
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Friendly":
+                Debug.Log("Friendly");
+                break;
+
+            case "Obstacle":
+                Debug.Log("Obstacle");
+                break;
+
+            default:
+                Debug.Log("Dead");
+                break;
+        }
+    }
+
 }
