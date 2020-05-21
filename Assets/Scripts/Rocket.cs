@@ -16,6 +16,14 @@ public class Rocket : MonoBehaviour
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
 
+    private enum State
+    {
+        Alive, 
+        Dying, 
+        Transcending,
+    }
+
+    private State state = State.Alive;
 
     /// Start is called before the first frame update
     void Start()
@@ -35,8 +43,14 @@ public class Rocket : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        Thurst();
-        Rotate();
+        // TODO Stop sound on Death
+        if (state == State.Alive)
+        {
+            Thurst();
+            Rotate();
+        }
+
+
     }
 
 
@@ -45,6 +59,7 @@ public class Rocket : MonoBehaviour
     /// </summary>
     private void Thurst()
     {
+
         if (Input.GetKey(KeyCode.Space))
         {
             _rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
@@ -89,22 +104,46 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // prevent multiple collision calls as we are already dead
+        if (state != State.Alive)
+        {
+            return;
+        }
         switch (collision.gameObject.tag)
         {
             case "Friendly":
-                Debug.Log("Friendly");
                 break;
 
             case "Finish":
-                Debug.Log("Finshed Game");
-                SceneManager.LoadScene(1);
+                state = State.Transcending;
+                Invoke("LoadNextLevel", 2.0f);
                 break;
 
             default:
                 Debug.Log("Dead");
-                SceneManager.LoadScene(0);
+                state = State.Dying;
+                Invoke("LoadFirstLevel", 2.0f);
                 break;
         }
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void LoadNextLevel()
+    {
+        // TODO allow for more levels
+
+        SceneManager.LoadScene(1);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
