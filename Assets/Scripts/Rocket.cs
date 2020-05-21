@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
+    // TODO Fix lighting issue
     [SerializeField]
     private float rcsThrust = 100.0f;
 
@@ -93,12 +95,14 @@ public class Rocket : MonoBehaviour
                 Debug.Log("Friendly");
                 break;
 
-            case "Obstacle":
-                Debug.Log("Obstacle");
+            case "Finish":
+                Debug.Log("Finshed Game");
+                SceneManager.LoadScene(1);
                 break;
 
             default:
                 Debug.Log("Dead");
+                SceneManager.LoadScene(0);
                 break;
         }
     }
