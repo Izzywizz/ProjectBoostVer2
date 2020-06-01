@@ -34,6 +34,10 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     ParticleSystem _successParticleSystem = null;
 
+    [Header("Level Parameters")]
+    [SerializeField]
+    private float _levelLoadDelay = 1.0f;
+
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
 
@@ -168,7 +172,7 @@ public class Rocket : MonoBehaviour
         _audioSource.Stop();
         PlayLoadNewLevelSound();
         _successParticleSystem.Play();
-        Invoke("LoadNextLevel", 1.0f);
+        Invoke("LoadNextLevel", _levelLoadDelay);
     }
 
 
@@ -181,7 +185,7 @@ public class Rocket : MonoBehaviour
         _audioSource.Stop();
         PlayDeathSound();
         _deathParticleSystem.Play();
-        Invoke("LoadFirstLevel", 1.0f);
+        Invoke("LoadFirstLevel", _levelLoadDelay);
     }
 
 
