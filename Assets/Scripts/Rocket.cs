@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 public class Rocket : MonoBehaviour
 {
     // TODO Fix lighting issue
+    [Header("Thrust Settings")]
     [SerializeField]
     private float rcsThrust = 100.0f;
 
     [SerializeField]
     private float mainThrust = 10.0f;
 
+    [Header("Sound")]
     [SerializeField]
     private AudioClip _mainEngine = null;
 
@@ -21,6 +23,16 @@ public class Rocket : MonoBehaviour
 
     [SerializeField]
     private AudioClip _success = null;
+
+    [Header("Particle System")]
+    [SerializeField]
+    ParticleSystem _mainEngineParticleSystem = null;
+
+    [SerializeField]
+    ParticleSystem _deathParticleSystem = null;
+
+    [SerializeField]
+    ParticleSystem _successParticleSystem = null;
 
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
@@ -75,6 +87,7 @@ public class Rocket : MonoBehaviour
         else
         {
             _audioSource.Stop();
+            _mainEngineParticleSystem.Stop();
         }
     }
 
@@ -93,6 +106,7 @@ public class Rocket : MonoBehaviour
                 _audioSource.PlayOneShot(_mainEngine);
             }
         }
+        _mainEngineParticleSystem.Play();
     }
 
 
@@ -153,6 +167,7 @@ public class Rocket : MonoBehaviour
         state = State.Transcending;
         _audioSource.Stop();
         PlayLoadNewLevelSound();
+        _successParticleSystem.Play();
         Invoke("LoadNextLevel", 1.0f);
     }
 
@@ -165,6 +180,7 @@ public class Rocket : MonoBehaviour
         state = State.Dying;
         _audioSource.Stop();
         PlayDeathSound();
+        _deathParticleSystem.Play();
         Invoke("LoadFirstLevel", 1.0f);
     }
 
