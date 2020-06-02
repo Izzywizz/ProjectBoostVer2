@@ -40,6 +40,7 @@ public class Rocket : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private AudioSource _audioSource;
+    private bool _collisionsDisabled = false;
 
     private enum State
     {
@@ -75,7 +76,28 @@ public class Rocket : MonoBehaviour
             RespondToRotate();
         }
 
+        if (Debug.isDebugBuild)
+        {
+            ResspondToDebugKeys();
+        }
+    }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ResspondToDebugKeys()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            // toggle collision
+            _collisionsDisabled = !_collisionsDisabled;
+        }
     }
 
 
@@ -147,6 +169,13 @@ public class Rocket : MonoBehaviour
         {
             return;
         }
+
+        // allows collison to be ignored
+        if (_collisionsDisabled)
+        {
+            return;
+        }
+
         switch (collision.gameObject.tag)
         {
             case "Friendly":
