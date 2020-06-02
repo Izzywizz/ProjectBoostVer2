@@ -141,8 +141,9 @@ public class Rocket : MonoBehaviour
     /// </summary>
     private void RespondToRotate()
     {
-        // take manual control of rotation
-        _rigidbody.freezeRotation = true;
+        // remove rotation due to physics
+        _rigidbody.angularVelocity = Vector3.zero; 
+
         // modify rotation speed
         float rotationThisFrame = rcsThrust * Time.deltaTime;
 
@@ -156,9 +157,6 @@ public class Rocket : MonoBehaviour
             // clockwise - recall thumb is pointing at you
             transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
-
-        // resume phsuics control of rotation
-        _rigidbody.freezeRotation = false;
     }
 
 
