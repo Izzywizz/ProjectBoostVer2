@@ -243,13 +243,23 @@ public class Rocket : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Takes current scene index and loads the next level by adding one (test)
     /// </summary>
     private void LoadNextLevel()
     {
-        // TODO allow for more levels
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
 
-        SceneManager.LoadScene(1);
+        // perfectly divisable with no remainders so we've reached the last level
+        if (nextSceneIndex % SceneManager.sceneCountInBuildSettings == 0)
+        {
+            nextSceneIndex = 0;
+        }
+        //if (nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
+        //{
+        //    nextSceneIndex = 0;
+        //}
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
 
